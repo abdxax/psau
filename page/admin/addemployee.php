@@ -2,10 +2,16 @@
 session_start();
 require "../connection/DB.php";
 $db=new DB();
-$user=$db->addUser();
+//$user=$db->addUser();
 
-if (isset($_GET[''])) {
-	# code...
+if (isset($_POST['sub'])) {
+	$name=$_POST['name'];
+	$phone=$_POST['phone'];
+	$email=$_POST['email'];
+	$job=$_POST['job'];
+	$gender=$_POST['gend'];
+	$date=date("Y-m-d");
+	$user=$db->addUser($name,$phone,$email,$gender,$job,$date);
 }
 
 ?>

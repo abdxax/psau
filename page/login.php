@@ -1,3 +1,15 @@
+<?php
+require "connection/DB.php";
+session_start();
+if (isset($_POST['subm'])) {
+	$eml=strip_tags($_POST['email']);
+	$pass=strip_tags($_POST['pass']);
+	$db=new DB();
+	$db->login($eml,$pass);
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +38,7 @@
 	        			</h3>
 	        		</div>
 	        		<div class="card-body">
-	        			<form>
+	        			<form method="POST">
 	        				<div class="form-group">
 	        					<input type="text" name="email" class="form-control" placeholder="Email">
 	        				</div>
