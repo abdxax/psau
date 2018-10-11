@@ -17,7 +17,7 @@ $user=$db->getAlluser();
 <body>
 
 <header>
-
+<nav class=""></nav>
 </header>
 
 <section>
@@ -31,7 +31,7 @@ $user=$db->getAlluser();
 			</div>
 			<div class="col-3">
 				<ul class="nav navbar-nav">
-					<li><a href="#">Add new employee</a></li>
+					<li><a href="addemployee.php">Add new employee</a></li>
 					
 					<!--<li><a href="#">Add new Machine</a></li>-->
 				</ul>
@@ -54,43 +54,33 @@ $user=$db->getAlluser();
 
 						<tbody>
 							<?php 
-                                foreach ($user as $key ) {
+							//echo $user->rowCount();
+                                if($user->rowCount()>0){
+                                	foreach ($user as $key ) {
                                 	echo '
                                          <tr>
                                           <td>'.$key['name'].'</td>
+                                            <td>'.$key['email'].'</td>
+                                              <td>'.$key['phone'].'</td>
+                                                <td>'.$key['gender'].'</td>
+                                                  <td>'.$key['job'].'</td>
                                          </tr>
                                 	';
                                 }
+                            }
+                                else{
+                                	echo "<div class=text-center>
+                                       <h3>No user </h3>
+                                	</div>";
+                                }
+                                
 							?>
 						</tbody>
 						
 					</table>
 				</div>
                <!-- about operation-->
-				<div class="col-9">
-					<table class="table">
-						<tr>
-							<th>name</th>
-							<td></td>
-							<th>name</th>
-							</tr>
-						<tr>
-							<th>name</th>
-							<td></td>
-							<th>name</th>
-							<td></td>
-						</tr>
-					</table>
-				</div>
-				<!-- about Last maintenance-->
-				<div class="col-9">
-					<div class="card">
-						<div class="card-heading">
-							<h5>Last maintenance </h5>
-						</div>
-					</div>
-				</div>
-			</div>
+				
 		</div>
 	</div>
 </section>

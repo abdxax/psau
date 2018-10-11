@@ -10,11 +10,12 @@ class DB extends DbConnect
      private $db;
 	function __construct()
 	{
+		parent:: __construct();
 		$this->db=$this->pdo;
 	}
 
 	 public function getAlluser(){
-    	$d=$this->pdo->prepare("SELECT * FROM info");
+    	$d=$this->db->prepare("SELECT * FROM info");
     	$s=$d->execute();
     	print_r($s);
         

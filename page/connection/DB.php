@@ -4,27 +4,36 @@ require "connection.php";
 /**
 * 
 */
-class DB 
+class DB extends  DBconnection
 {
 	private $pdo;
 	function __construct()
 	{ 
-		$connection=new DBconnection("psua","root","");
-
-		//parent::__construct("psua","root","");
-		//$this->pdo=new PDO("mysql:host=localhost;dbname=psua","root","") or die("errror");
-		$this->pdo=$connection->getDb();
-
+		
+	
+		try {
+				parent::__construct();
+	//	$this->pdo=new PDO("mysql:host=localhost;dbname=psua","root","") or die("errror");
+				$this->pdo=$this->db;
+		} catch (Exception $e) {
+			
+		}
+		
 	}
     
     public function getAlluser(){
     	$d=$this->pdo->prepare("SELECT * FROM info");
-    	$d->execute();
+    	$s=$d->execute();
     	return $d;
         
+    }
+
+    public function addUser($name,$phone,$email,$gender,$job,$creat){
+    	$sql=$d=$this->pdo->prepare("INSERT INTO user (email,pass,role,status,create_at)VALUES(?,?,?,?,?)";
+    		if ($sql->execute(array($email,"12345", 2,"new",$creat))) {
+    			# code...
+    		}
     }
 	
 }
 
-$d=new DB();
-print_r($d->getAlluser());
