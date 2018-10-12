@@ -64,5 +64,23 @@ class DB extends  DBconnection
 
 		}
 	}
+
+	public function getAllPatien(){
+		$pat=$this->pdo->prepare("SELECT * FROM patien");
+		$pat->execute();
+		return $pat;
+	}
+
+	public function getPatien($file){
+		$pat=$this->pdo->prepare("SELECT * FROM patien WHERE file_on=?");
+		$pat->execute(array($file));
+		return $pat;
+	}
+
+	public function getPatienHostroy($file){
+		$pat=$this->pdo->prepare("SELECT * FROM history LEFT JOIN info ON history.email_emp=info.email WHERE history.file_on=?");
+		$pat->execute(array($file));
+		return $pat;
+	}
 }
 

@@ -30,13 +30,12 @@
 
 			<div class="col-4">
 				<div class="card">
-					<a href="machien.php">
+					<a href="hostory.php">
 						<div class="card-heading ">
 							<i class="fas fa-industry"></i>
-                              History of patient 
 						</div>
 						<div class="card-body">
-
+                               History of patient 
 						</div>
 					</a>
 				</div>
