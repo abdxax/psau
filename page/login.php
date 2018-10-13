@@ -1,6 +1,7 @@
 <?php
-require "connection/DB.php";
 session_start();
+require "connection/DB.php";
+
 if (isset($_POST['subm'])) {
 	$eml=strip_tags($_POST['email']);
 	$pass=strip_tags($_POST['pass']);

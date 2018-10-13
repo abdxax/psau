@@ -1,6 +1,6 @@
 <?php
+//session_start();
 require "connection.php";
-
 /**
 * 
 */
@@ -43,15 +43,20 @@ class DB extends  DBconnection
 		if($log->rowCount()==1){
 			foreach ($log as $key ) {
 				if($key['status']=="new"){
+					$_SESSION['email']=$key['email'];
 					header("localhost:createpass.php");
 					
 				}
 				else if($key['status']=="active"){
 					if($key['role']==1){
+						$_SESSION['email']=$key['email'];
+						$_SESSION['pass']=$key['pass'];
 						header("location:admin/index.php");
 
 					}
 					else{
+						$_SESSION['email']=$key['email'];
+						$_SESSION['pass']=$key['pass'];
 						header("location:stafe/index.php");
 						//echo "2";
 					}
@@ -81,6 +86,53 @@ class DB extends  DBconnection
 		$pat=$this->pdo->prepare("SELECT * FROM history LEFT JOIN info ON history.email_emp=info.email WHERE history.file_on=?");
 		$pat->execute(array($file));
 		return $pat;
+	}
+
+	public function getemplo($eml){
+		$pat=$this->pdo->prepare("SELECT * FROM info WHERE file_on=?");
+		$pat->execute(array($eml));
+		return $pat;
+	}
+
+	public function getpathen($eml){
+		$pat=$this->pdo->prepare("SELECT * FROM history Right JOIN info ON history.email_emp=info.email WHERE info.email=?");
+		$pat->execute(array($eml));
+		return $pat;
+	}
+
+	public function getNmaePatien($file){
+		$pat=$this->pdo->prepare("SELECT name FROM patien WHERE file_on=?");
+		$pat->execute(array($file));
+		$s='';
+		foreach ($pat as $key ) {
+			$s=$key['name'];
+		}
+		return $s;
+	}
+
+	public function getNmaeemplo($eml){
+		$pat=$this->pdo->prepare("SELECT name FROM info WHERE email=?");
+		$pat->execute(array($eml));
+		$s='';
+		foreach ($pat as $key ) {
+			$s=$key['name'];
+		}
+		return $s;
+	}
+
+	public function addPate($name,$file,$age,$country,$gender,$fil,$date){
+	   $pat=$this->pdo->prepare("INSERT INTO patien(name,file_on,Nation,age,gender,fil,create_at) VALUES(?,?,?,?,?,?,?)");
+		if ($pat->execute(array($name,$file,$age,$country,$gender,$fil,$date))) {
+			header("location:index.php");
+		}
+
+	}
+
+	public function addappoyt($fil,$date,$crea){
+		 $pat=$this->pdo->prepare("INSERT INTO appointment(file_on,appo_at,status,createat) VALUES(?,?,?,?)");
+		if ($pat->execute(array($fil,$date,"new",$crea))) {
+			header("location:index.php");
+		}
 	}
 }
 

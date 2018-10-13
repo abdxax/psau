@@ -1,3 +1,12 @@
+<?php
+session_start();
+require "../connection/DB.php";
+$db=new DB();
+
+$nams=$db->getNmaeemplo($_SESSION['email'])
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +19,7 @@
 
 <header>
 
+<?php require "header.php";?>
 </header>
 
 <section>
@@ -32,7 +42,8 @@
 				<div class="card">
 					<a href="hostory.php">
 						<div class="card-heading ">
-							<i class="fas fa-industry"></i>
+							<i class="fas fa-hospital-alt"></i>
+
 						</div>
 						<div class="card-body">
                                History of patient 
@@ -46,11 +57,11 @@
 				<div class="card">
 					<a href="maintenance.php">
 						<div class="card-heading ">
-							<i class="fas fa-wrench"></i>
+							<i class="fas fa-file-invoice"></i>
 
 						</div>
 						<div class="card-body">
-							
+							Reports
 						</div>
 					</a>
 				</div>

@@ -3,7 +3,7 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 $user=$db->getAlluser();
-
+$nams=$db->getNmaeemplo($_SESSION['email']);
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ $user=$db->getAlluser();
 <body>
 
 <header>
-<nav class=""></nav>
+<?php require "header.php";?>
 </header>
 
 <section>
@@ -59,7 +59,7 @@ $user=$db->getAlluser();
                                 	foreach ($user as $key ) {
                                 	echo '
                                          <tr>
-                                          <td>'.$key['name'].'</td>
+                                          <td><a href=infoempl.php?eml='.$key['email'].'>'.$key['name'].'</a></td>
                                             <td>'.$key['email'].'</td>
                                               <td>'.$key['phone'].'</td>
                                                 <td>'.$key['gender'].'</td>

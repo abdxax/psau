@@ -3,10 +3,10 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 $nams=$db->getNmaeemplo($_SESSION['email']);
-if(isset($_GET['fi'])){
-$file=$_GET['fi'];
-$inf=$db->getPatien($file);
-$hosa=$db->getPatienHostroy($file);
+if(isset($_GET['eml'])){
+$file=$_GET['eml'];
+$inf=$db->getpathen($file);
+$hosa=$db->getpathen($file);
 }
 else{
 
@@ -32,7 +32,7 @@ else{
 	<div class="row">
 		<div class="col-10">
 			<div class="col-12">
-				<h4 class="text-center">Patien Information </h4>
+				<h4 class="text-center">Employee Information </h4>
 			</div>
 			<div class="col-10 offset-1">
 				<div class="card">
@@ -43,14 +43,14 @@ else{
                               <tr>
                                 <th>Name: </th>
                                 <td>".$key['name']."</td>
-                               <th>File On:</th>
-                                   <td>".$key['file_on']."</td>
+                               <th>Email:</th>
+                                   <td>".$key['email']."</td>
                               </tr>
                               <tr>
-                                <th>Nation: </th>
-                                <td>".$key['Nation']."</td>
-                               <th>Age:</th>
-                                   <td>".$key['age']."</td>
+                                <th>Phone: </th>
+                                <td>".$key['phone']."</td>
+                               <th>Job:</th>
+                                 <td>".$key['job']."</td>  
                               </tr>
 							</table>";
 						}
@@ -68,7 +68,7 @@ else{
 	<div class="row">
 		<div class="col-10">
 			<div class="col-12">
-				<h4 class="text-center">Patien Hostory </h4>
+				<h4 class="text-center">Employee Hostory </h4>
 			</div>
 			<div class="col-10 offset-1">
 				<div class="card">
@@ -76,7 +76,8 @@ else{
 						<table class="table">
 							<thead>
 								<tr>
-								<th>employy</th>
+								<th>Name</th>
+								<th>File ON</th>
 								<th>diagnosis</th>
 								<th>plan</th>
 								<th>recomand</th>
@@ -95,7 +96,8 @@ else{
                                   	foreach ($hosa as $key ) {
                                   		echo '
                                           <tr>
-                                    <td>'.$key['name'].'</td>
+                                    <td>'.$db->getNmaePatien($key['file_on']).'</td>
+                                     <td>'.$key['file_on'].'</td>
                                      <td>'.$key['diagnosis'].'</td>
                                       <td>'.$key['plan'].'</td>
                                        <td>'.$key['recomand'].'</td>

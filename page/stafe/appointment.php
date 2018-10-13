@@ -3,16 +3,34 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 //$user=$db->addUser();
-$nams=$db->getNmaeemplo($_SESSION['email'])
-if (isset($_POST['sub'])) {
-	$name=$_POST['name'];
-	$phone=$_POST['phone'];
-	$email=$_POST['email'];
-	$job=$_POST['job'];
-	$gender=$_POST['gend'];
-	$date=date("Y-m-d");
-	$user=$db->addUser($name,$phone,$email,$gender,$job,$date);
+$nams=$db->getNmaeemplo($_SESSION['email']);
+
+if (isset($_GET['file'])) {
+	$id=$_GET['file'];
+	$info=$db->getPatien($id);
+	$name;
+	$age;
+	$fil;
+	if ($info->rowCount()==1) {
+		foreach ($info as $key ) {
+			$name=$key['name'];
+			$fil=$key['file_on'];
+			$age=$key['age'];
+		}
+
+	}
+	else{
+		header("location:index.php?msg=Not found ");
+	}
+
 }
+if (isset($_POST['sub'])) {
+	$date=$_POST['next'];
+
+	$crea=date("Y-m-d");
+	$user=$db->addappoyt($fil,$date,$crea);
+}
+
 
 ?>
 
@@ -35,7 +53,7 @@ if (isset($_POST['sub'])) {
 		<div class="row">
 			<div class="col-12">
 				<div class="text-center">
-					<h4>Add New Employee</h4>
+					<h4>Appointment Booking</h4>
 				</div>
 			</div>
 			<div class="col-12">
@@ -43,45 +61,41 @@ if (isset($_POST['sub'])) {
 					
 					<div class="card-body ">
 						<div class="col-6  xform">
-					<form method="POST">
+					<form method="POST" enctype="multipart/form-data">
 						<div class="form-group row">
-							<label for="name" class="col-2">Name  </label>
+							<label for="name" class="col-3">Name  </label>
 							<div class="col-7">
-								<input type="text" name="name" class="form-control" id="name">
+								<input type="text" name="name" class="form-control" id="name" value=<?php echo $name;?>>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="phone" class="col-2">phone  </label>
+							<label for="file" class="col-3">File Number  </label>
 							<div class="col-7">
-								<input type="text" name="phone" class="form-control" id="phone">
+								<input type="number" name="files" class="form-control" id="file" value=<?php echo $fil;?>>
 							</div>
 						</div>
+						
 						<div class="form-group row">
-							<label for="email" class="col-2">email  </label>
+							<label for="Age" class="col-3">Age  </label>
 							<div class="col-7">
-								<input type="email" name="email" class="form-control" id="email">
+								<input type="number" name="Age" class="form-control" id="job"value=<?php echo $age;?>>
 							</div>
 						</div>
+						
+
 						<div class="form-group row">
-							<label for="job" class="col-2">Job  </label>
+							<label for="gender" class="col-3">Date  </label>
 							<div class="col-7">
-								<input type="text" name="job" class="form-control" id="job">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label for="gender" class="col-2">gender  </label>
-							<div class="col-4">
-								<select name="gend" class="form-control">
-									<option value="m">Male</option>
-									<option value="f">Female</option>
-								</select>
+								<input type="date" name="next" id="datepicker" class="form-control">
 							</div>
 						</div>
 
+
+
 						<div class="form-group row">
-							<label for="gender" class="col-2"></label>
+							<label for="gender" class="col-3"></label>
 							<div class="col-7">
-								<input type="submit" name="sub" class="btn btn-info btn-block" value="Create Account ">
+								<input type="submit" name="sub" class="btn btn-info btn-block" value="Add Appointment ">
 							</div>
 						</div>
 
@@ -98,6 +112,7 @@ if (isset($_POST['sub'])) {
 
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/jquery.js"></script>
+<script src="../../js/dem.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 </body>
 </html>
