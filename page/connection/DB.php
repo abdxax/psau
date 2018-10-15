@@ -134,5 +134,16 @@ class DB extends  DBconnection
 			header("location:index.php");
 		}
 	}
+
+	public function allPatienSame($day){
+		$sql=$this->pdo->prepare("SELECT * FROM appointment LEFT JOIN patien ON appointment.file_on=patien.file_on where appointment.appo_at=?");
+		if($sql->execute(array($day))){
+			return $sql;
+
+		}
+		else{
+			return "Not petion ";
+		}
+	}
 }
 

@@ -4,6 +4,8 @@ require "../connection/DB.php";
 $db=new DB();
 
 $nams=$db->getNmaeemplo($_SESSION['email']);
+$date=date("Y-m-d");
+$infos=$db->allPatienSame($date);
 /*if (isset($_GET['subs'])) {
 	$file=$_GET['file'];
 	header("location:appointment.php?id=".$file."");
@@ -40,6 +42,32 @@ else{
 					<li><a href="#">Register new Patient</a></li>
 				</ul>
 			</div>
+
+      <div class="col-9">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>File Number</th>
+              <th>Day</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+             foreach ($infos as $key ) {
+              echo '
+                <tr>
+                  <td>'.$key['name'].'</td>
+                  <td>'.$key['file_on'].'</td>
+                  <td>'.$date.'</td>
+                </tr>
+              ';
+               # code...
+             }
+            ?>
+          </tbody>
+        </table>
+      </div>
 		</div>
 	</div>
 </section>
