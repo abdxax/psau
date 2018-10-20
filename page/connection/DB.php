@@ -57,6 +57,7 @@ class DB extends  DBconnection
 					else{
 						$_SESSION['email']=$key['email'];
 						$_SESSION['pass']=$key['pass'];
+						$_SESSION['ge']=$key['gender'];
 						header("location:stafe/index.php");
 						//echo "2";
 					}
@@ -136,13 +137,26 @@ class DB extends  DBconnection
 	}
 
 	public function allPatienSame($day){
-		$sql=$this->pdo->prepare("SELECT * FROM appointment LEFT JOIN patien ON appointment.file_on=patien.file_on where appointment.appo_at=?");
-		if($sql->execute(array($day))){
+		$gen=$_SESSION['ge'];
+		$sql=$this->pdo->prepare("SELECT * FROM appointment LEFT JOIN patien ON appointment.file_on=patien.file_on where appointment.appo_at=? AND appointment.status=? AND appointment.gender=?");
+		if($sql->execute(array($day,"new",$gen))){
 			return $sql;
 
 		}
 		else{
 			return "Not petion ";
+		}
+	}
+
+	public function addhos($file,$email,$dig,$plan,$recom,$note,$crea){
+		 $pat=$this->pdo->prepare("INSERT INTO history(file_on,email_emp,diagnosis,plan,recomand,note,create_at) VALUES(?,?,?,?,?,?,?)");
+		if ($pat->execute(array($file,$email,$dig,$plan,$recom,$note,$crea))) {
+			$stu=$this->pdo->prepare("UPDATE appointment SET status=? WHERE file_on=?");
+			if ($stu->execute(array("Done",$file))) {
+				header("location:index.php");
+			}
+
+			
 		}
 	}
 }

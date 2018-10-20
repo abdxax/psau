@@ -57,7 +57,7 @@ else{
              foreach ($infos as $key ) {
               echo '
                 <tr>
-                  <td>'.$key['name'].'</td>
+                  <td><a href=addhist.php?file='.$key['file_on'].'>'.$key['name'].'</a></td>
                   <td>'.$key['file_on'].'</td>
                   <td>'.$date.'</td>
                 </tr>
