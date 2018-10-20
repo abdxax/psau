@@ -136,9 +136,9 @@ class DB extends  DBconnection
 		}
 	}
 
-	public function allPatienSame($day){
-		$gen=$_SESSION['ge'];
-		$sql=$this->pdo->prepare("SELECT * FROM appointment LEFT JOIN patien ON appointment.file_on=patien.file_on where appointment.appo_at=? AND appointment.status=? AND appointment.gender=?");
+	public function allPatienSame($day,$gen){
+		$gen=$gen;
+		$sql=$this->pdo->prepare("SELECT * FROM appointment LEFT JOIN patien ON appointment.file_on=patien.file_on where appointment.appo_at=? AND appointment.status=? AND patien.gender=?");
 		if($sql->execute(array($day,"new",$gen))){
 			return $sql;
 

@@ -5,7 +5,7 @@ $db=new DB();
 
 $nams=$db->getNmaeemplo($_SESSION['email']);
 $date=date("Y-m-d");
-$infos=$db->allPatienSame($date);
+$infos=$db->allPatienSame($date,$_SESSION['ge']);
 /*if (isset($_GET['subs'])) {
 	$file=$_GET['file'];
 	header("location:appointment.php?id=".$file."");
