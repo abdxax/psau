@@ -3,7 +3,8 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 //$user=$db->addUser();
-$nams=$db->getNmaeemplo($_SESSION['email']);
+if (isset($_SESSION['email'])) {
+	$nams=$db->getNmaeemplo($_SESSION['email']);
 $id='';
 if (isset($_GET['file'])) {
 	$id=$_GET['file'];
@@ -24,15 +25,17 @@ if (isset($_GET['file'])) {
 
 }
 if (isset($_POST['sub'])) {
-	$dig=$_POST['diagnosis'];
-    $plan=$_POST['plan'];
-    $recom=$_POST['recomand'];
-    $note=$_POST['note'];
+	$dig=strip_tags($_POST['diagnosis']);
+    $plan=strip_tags($_POST['plan']);
+    $recom=strip_tags($_POST['recomand']);
+    $note=strip_tags($_POST['note']);
       $enl=$_SESSION['email']; 
 	$crea=date("Y-m-d");
 	$user=$db->addhos($id,$enl,$dig,$plan,$recom,$note,$crea);
 }
 
+
+}
 
 ?>
 

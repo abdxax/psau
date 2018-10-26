@@ -2,15 +2,29 @@
 session_start();
 require "../connection/DB.php";
 $db=new DB();
-$nams=$db->getNmaeemplo($_SESSION['email']);
+if (isset($_SESSION['email'])) {
+	$nams=$db->getNmaeemplo($_SESSION['email']);
 if(isset($_GET['fi'])){
 $file=$_GET['fi'];
 $inf=$db->getPatien($file);
 $hosa=$db->getPatienHostroy($file);
+$srt=$db->getPatien($file);
+$resu=$srt->fetch();
+if ($resu<=0) {
+	
+     
+	header("location:hostory.php?msg=false");
+}
+
 }
 else{
 
 }
+}
+else{
+	header("location:../login.php");
+}
+
 
 ?>
 <!DOCTYPE html>

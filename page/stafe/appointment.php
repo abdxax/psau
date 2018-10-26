@@ -3,7 +3,8 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 //$user=$db->addUser();
-$nams=$db->getNmaeemplo($_SESSION['email']);
+if (isset($_SESSION['email'])) {
+	$nams=$db->getNmaeemplo($_SESSION['email']);
 
 if (isset($_GET['file'])) {
 	$id=$_GET['file'];
@@ -25,11 +26,16 @@ if (isset($_GET['file'])) {
 
 }
 if (isset($_POST['sub'])) {
-	$date=$_POST['next'];
+	$date=strip_tags($_POST['next']);
 
 	$crea=date("Y-m-d");
 	$user=$db->addappoyt($fil,$date,$crea);
 }
+}
+else{
+	header("location:../login.php");
+}
+
 
 
 ?>

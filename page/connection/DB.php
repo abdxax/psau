@@ -2,7 +2,19 @@
 //session_start();
 require "connection.php";
 /**
-* 
+* if($key['status']=='new'){
+                        $_SESSION['email']=$key['email'];
+						$_SESSION['pass']=$key['pass'];
+						$_SESSION['ge']=$key['gender'];
+						header("location:stafe/newEmployee.php");
+						}
+						else{
+						$_SESSION['email']=$key['email'];
+						$_SESSION['pass']=$key['pass'];
+						$_SESSION['ge']=$key['gender'];
+						header("location:stafe/index.php");
+						}
+						
 */
 class DB extends  DBconnection
 {
@@ -29,7 +41,7 @@ class DB extends  DBconnection
 
     public function addUser($name,$phone,$email,$gender,$job,$creat){
     	$sql=$this->pdo->prepare("INSERT INTO user(email,pass,role,status,create_at)VALUES(?,?,?,?,?)");
-    		if ($sql->execute(array($email,"12345",2,"new",$creat))) {
+    		if ($sql->execute(array($email,"827ccb0eea8a706c4c34a16891f84e7b",2,"new",$creat))) {
     			$info=$this->pdo->prepare("INSERT INTO info(email,name,phone,job,gender,create_at)VALUES(?,?,?,?,?,?)");
     			if ($info->execute(array($email,$name,$phone,$job,$gender,$creat))) {
     				header("location:employee.php");
@@ -44,7 +56,7 @@ class DB extends  DBconnection
 			foreach ($log as $key ) {
 				if($key['status']=="new"){
 					$_SESSION['email']=$key['email'];
-					header("localhost:createpass.php");
+					header("location:stafe/newEmployee.php");
 					
 				}
 				else if($key['status']=="active"){
@@ -57,7 +69,7 @@ class DB extends  DBconnection
 					else{
 						$_SESSION['email']=$key['email'];
 						$_SESSION['pass']=$key['pass'];
-						$_SESSION['ge']=$key['gender'];
+						//$_SESSION['ge']=$key['gender'];
 						header("location:stafe/index.php");
 						//echo "2";
 					}
@@ -123,8 +135,11 @@ class DB extends  DBconnection
 
 	public function addPate($name,$file,$age,$country,$gender,$fil,$date){
 	   $pat=$this->pdo->prepare("INSERT INTO patien(name,file_on,Nation,age,gender,fil,create_at) VALUES(?,?,?,?,?,?,?)");
-		if ($pat->execute(array($name,$file,$age,$country,$gender,$fil,$date))) {
-			header("location:index.php");
+		if ($pat->execute(array($name,$file,$country,$age,$gender,$fil,$date))) {
+			header("location:index.php?msg=done");
+		}
+		else{
+			header("location:registerpatient.php?msg=false");
 		}
 
 	}
@@ -157,6 +172,21 @@ class DB extends  DBconnection
 			}
 
 			
+		}
+	}
+
+	public function updatePass($pass,$email){
+		$sql=$this->pdo->prepare("UPDATE user SET status=?,pass=? WHERE email=?");
+		if ($sql->execute(array("active",$pass,$email))) {
+			header("location:../login.php");
+		}
+	}
+
+	public function getGender($email){
+		$sql=$this->pdo->prepare("SELECT gender FROM info WHERE email=?");
+		$sql->execute(array($email));
+		foreach ($sql as $key ) {
+			return $key['gender'];
 		}
 	}
 }

@@ -2,8 +2,23 @@
 session_start();
 require "../connection/DB.php";
 $db=new DB();
-$info=$db->getAllPatien();
+if (isset($_SESSION['email'])) {
+	$info=$db->getAllPatien();
 $nams=$db->getNmaeemplo($_SESSION['email']);
+if (isset($_GET['sub'])) {
+	$fil=$_GET['fil'];
+	header("location:info.php?fi=".$fil."");
+}
+if (isset($_GET['msg'])) {
+	$msg="<div class='alert alert-danger'>
+  The Filel number is not true 
+</div>
+";
+}
+}
+else{
+	header("location:../login.php");
+}
 ?>
 <!DOCTYPE html>
 <html>

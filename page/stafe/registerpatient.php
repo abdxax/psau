@@ -3,7 +3,9 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 //$user=$db->addUser();
-$nams=$db->getNmaeemplo($_SESSION['email']);
+$msg="";
+if (isset($_SESSION['email'])) {
+	$nams=$db->getNmaeemplo($_SESSION['email']);
 /*if (isset($_POST['sub'])) {
 	$name=$_POST['name'];
 	$phone=$_POST['phone'];
@@ -23,18 +25,37 @@ if (isset($_FILES['file'])) {
     //$file_ext=strtolower(end());
     
      $explod= explode('.',$fname);
-     //print_r($explod) ;
-       $end=strtolower($explod[1]);
+    // print_r($explod) ;
+     if (count($explod)<=1) {
+     	if (isset($_POST['sub'])){
+	    $name=strip_tags($_POST['name']);
+		$files=strip_tags($_POST['files']);
+		$Nation=strip_tags($_POST['Nation']);
+		$Age=strip_tags($_POST['Age']);
+		$gender=strip_tags($_POST['gend']);
+		$date=date("Y-m-d");
+		if($db->addPate($name,$files,$Age,$Nation,$gender,"-",$date)){
+				header("location:index.php");
+			}
+			else{
+				$msg="<div class='alert alert-danger'>The patient register before   </div>";
+				header("location=registerpatient.php?msg=".$msg."");
+			}
+}
+     }
+     else if(count($explod)==2){
+
+     	 $end=strtolower($explod[1]);
       echo $end;
 	$exc=array("pdf","jpg","png");
 if (in_array($end,$exc)) {
 	echo $size."<br/>";
 	if ($size<=409600) {
-		$name=$_POST['name'];
-		$files=$_POST['files'];
-		$Nation=$_POST['Nation'];
-		$Age=$_POST['Age'];
-		$gender=$_POST['gend'];
+		    $name=strip_tags($_POST['name']);
+		$files=strip_tags($_POST['files']);
+		$Nation=strip_tags($_POST['Nation']);
+		$Age=strip_tags($_POST['Age']);
+		$gender=strip_tags($_POST['gend']);
 		$date=date("Y-m-d");
 		$path="../../file/".$name."_".$fname;
 		if (move_uploaded_file($tmp, $path)) {
@@ -42,36 +63,38 @@ if (in_array($end,$exc)) {
 				header("location:index.php");
 			}
 			else{
-				echo "string";
+				$msg="<div class='alert alert-danger'>The patient register before   </div>";
+				header("location=registerpatient.php?msg=".$msg."");
 			}
 
 		}else{
-			echo "string 1";
+			$msg="<div class='alert alert-danger'>Server error path!!!!</div>";
+			header("location=registerpatient.php?msg=".$msg."");
 		}
 	}
 	else{
-echo "string 2";
+$msg="<div class='alert alert-danger'>Please the size of file is large max 400 mb</div>";
+header("location=registerpatient.php?msg=".$msg."");
 	}
 }
 else{
-echo "string 3";
+$msg="<div class='alert alert-danger'>The file type is not support try use (pdf , jpg,png)</div>";
+header("location=registerpatient.php?msg=".$msg."");
 }
+
+     }
+     else{
+     	echo count($explod);
+     }
+      
 	
 }
-else if (isset($_POST['sub'])){
-	$name=$_POST['name'];
-		$files=$_POST['files'];
-		$Nation=$_POST['Nation'];
-		$Age=$_POST['Age'];
-		$gender=$_POST['gend'];
-		$date=date("Y-m-d");
-		if($db->addPate($name,$files,$Age,$Nation,$gender,"-",$date)){
-				header("location:index.php");
-			}
-			else{
-				echo "string";
-			}
 }
+else{
+	header("location:../login.php");
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +115,10 @@ else if (isset($_POST['sub'])){
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
+				<?php if (isset($_GET['msg'])) {
+					echo $msg;
+				}
+				?>
 				<div class="text-center">
 					<h4>Add New Patient</h4>
 				</div>

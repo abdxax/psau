@@ -2,8 +2,26 @@
 session_start();
 require "../connection/DB.php";
 $db=new DB();
-$info=$db->getAllPatien();
+$msg="";
+if (isset($_SESSION['email'])) {
+	$info=$db->getAllPatien();
 $nams=$db->getNmaeemplo($_SESSION['email']);
+if (isset($_GET['sub'])) {
+	$fil=$_GET['fil'];
+	header("location:info.php?fi=".$fil."");
+}
+
+if (isset($_GET['msg'])) {
+	$msg="<div class='alert alert-danger'>
+  The Filel number is not true 
+</div>
+";
+}
+
+}
+else{
+	header("location:../login.php");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,6 +41,7 @@ $nams=$db->getNmaeemplo($_SESSION['email']);
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
+				<?php echo $msg;?>
 				<div class="col-6 offset-5 fot">
 					<form class="form-inline ">
 						<input type="number" name="fil" class="form-control" placeholder="File Number" ="file number">
@@ -30,12 +49,12 @@ $nams=$db->getNmaeemplo($_SESSION['email']);
 					</form>
 				</div>
 			</div>
-			<div class="col-3">
+		<!--	<div class="col-3">
 				<ul>
 					<li>report </li>
 				</ul>
-			</div>
-			<div class="col-9">
+			</div>-->
+			<div class="col-9 offset-2">
 				<table class="table">
 					<thead>
 						<tr>
@@ -44,6 +63,7 @@ $nams=$db->getNmaeemplo($_SESSION['email']);
 							<th>File ON </th>
 							<th>Nation</th>
 							<th>age</th>
+							<th>Attachment</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,6 +81,14 @@ $nams=$db->getNmaeemplo($_SESSION['email']);
                                 <td>'.$key['file_on'].'</td>
                                  <td>'.$key['Nation'].'</td>
                                   <td>'.$key['age'].'</td>
+                                 ';
+                                 if($key['fil']=="-"){
+                                 	echo "<td>No Attachment</td>";
+                                 }
+                                 else{
+                                 	echo '<td><a href='.$key['fil'].'>Download </a></td>';
+                                 }
+                                 echo '
                               </tr>
                            	';
                            	$on++;
@@ -68,6 +96,7 @@ $nams=$db->getNmaeemplo($_SESSION['email']);
                            }
                         
 						?>
+
 					</tbody>
 				</table>
 			</div>

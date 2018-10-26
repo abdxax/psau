@@ -2,8 +2,15 @@
 session_start();
 require "../connection/DB.php";
 $db=new DB();
-$user=$db->getAlluser();
+if (isset($_SESSION['email'])) {
+	$user=$db->getAlluser();
 $nams=$db->getNmaeemplo($_SESSION['email']);
+}
+
+else{
+	header("location:../login.php");
+}
+
 ?>
 
 <!DOCTYPE html>

@@ -5,8 +5,13 @@ require "connection/DB.php";
 if (isset($_POST['subm'])) {
 	$eml=strip_tags($_POST['email']);
 	$pass=strip_tags($_POST['pass']);
+	$pass=md5($pass);
 	$db=new DB();
 	$db->login($eml,$pass);
+}
+$msg="";
+if (isset($_GET['msg'])) {
+	$msg="<div class='alert alert-danger'>The email or Password Not correct </div>";
 }
 
 ?>
@@ -19,16 +24,15 @@ if (isset($_POST['subm'])) {
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
-<body>
+<body class="bod">
 
 <header>
 <div class="container">
 	<div class="row">
-		<div class="col-12">
-			
-		</div>
+		
 			<div class="col-12 ">
-		     <!-- <img src="../../image/logo.jpg" class="logo-login">-->
+				<?php echo $msg; ?>
+		      <img src="../page/logo.jpg" class="logo-login">
 	        </div>
 
 	        <div class="col-6 offset-3">
@@ -41,10 +45,10 @@ if (isset($_POST['subm'])) {
 	        		<div class="card-body">
 	        			<form method="POST">
 	        				<div class="form-group">
-	        					<input type="text" name="email" class="form-control" placeholder="Email">
+	        					<input type="email" name="email" class="form-control xz" placeholder="Email">
 	        				</div>
 	        				<div class="form-group">
-	        					<input type="text" name="pass" class="form-control" placeholder="Password">
+	        					<input type="Password" name="pass" class="form-control" placeholder="Password">
 	        				</div>
 	        				<div class="form-group">
 	        					<input type="submit" name="subm" class="btn btn-primary btns" value="Login">
@@ -56,9 +60,15 @@ if (isset($_POST['subm'])) {
 
 
 	</div>
+
 </div>
 </header>
 
+<footer>
+	<div class="text-center">
+		<p>Developer :Abdulrahman ALJarallah</p>
+	</div>
+</footer>
 
 
 <script src="../js/bootstrap.js"></script>

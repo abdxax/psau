@@ -3,16 +3,23 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 //$user=$db->addUser();
-$nams=$db->getNmaeemplo($_SESSION['email'])
-if (isset($_POST['sub'])) {
-	$name=$_POST['name'];
-	$phone=$_POST['phone'];
-	$email=$_POST['email'];
-	$job=$_POST['job'];
-	$gender=$_POST['gend'];
+
+if (isset($_SESSION['email'])) {
+	$nams=$db->getNmaeemplo($_SESSION['email']);
+	if(isset($_POST['sub'])){
+	$name=strip_tags($_POST['name']);
+	$phone=strip_tags($_POST['phone']);
+	$email=strip_tags($_POST['email']);
+	$job=strip_tags($_POST['job']);
+	$gender=strip_tags($_POST['gend']);
 	$date=date("Y-m-d");
 	$user=$db->addUser($name,$phone,$email,$gender,$job,$date);
 }
+}
+else{
+	header("location:../login.php");
+}
+
 
 ?>
 

@@ -3,9 +3,23 @@ session_start();
 require "../connection/DB.php";
 $db=new DB();
 
+$msg="";
+if (isset($_SESSION['email'])) {
 $nams=$db->getNmaeemplo($_SESSION['email']);
 $date=date("Y-m-d");
-$infos=$db->allPatienSame($date,$_SESSION['ge']);
+$gen=$db->getGender($_SESSION['email']);
+$infos=$db->allPatienSame($date,$gen);
+
+  if (isset($_GET['msg'])) {
+    $msg="<div class='alert alert-success'>
+  <strong>Done </strong> Add new Patient.
+</div>
+";
+  }
+}
+else{
+  header("location:../login.php");
+}
 /*if (isset($_GET['subs'])) {
 	$file=$_GET['file'];
 	header("location:appointment.php?id=".$file."");
@@ -33,6 +47,7 @@ else{
 <section>
 	<div class="container">
 		<div class="row">
+
 			<div class="col-3">
 				<ul class="nav navbar-nav">
 					<li><a href="registerpatient.php">Register new Patient</a></li>
@@ -44,6 +59,7 @@ else{
 			</div>
 
       <div class="col-9">
+        <?php echo $msg;?>
         <table class="table">
           <thead>
             <tr>

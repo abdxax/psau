@@ -1,8 +1,17 @@
+.bod{
+background-image: url("../page/bc.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+
+}
 .logo-login{
 	display: block;
 	margin-right:  auto;
 	margin-left: auto;
 	margin-top: 60px;
+	width: 250px;
+	height: 250px;
+
 }
 .ar-button{
 	text-align: right;
@@ -10,6 +19,7 @@
 }
 .cardx{
 	margin-top: 15px;
+	background-color: transparent;
 }
 .en-button{
 	text-align: left;
@@ -44,4 +54,13 @@ nav {
 }
 .table{
 
+}
+input[type="email"]{
+	background-color: transparent;
+}
+input[type="password"]{
+	background-color: transparent;
+}
+footer{
+	
 }

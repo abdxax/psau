@@ -2,7 +2,12 @@
 session_start();
 require "../connection/DB.php";
 $db=new DB();
-$nams=$db->getNmaeemplo($_SESSION['email']);
+//$nams=$db->getNmaeemplo($_SESSION['email']);
+if(isset($_GET['fi'])){
+$file=$_GET['fi'];
+$inf=$db->getPatien($file);
+$hosa=$db->getPatienHostroy($file);
+
 if(isset($_GET['eml'])){
 $file=$_GET['eml'];
 $inf=$db->getpathen($file);
@@ -11,6 +16,12 @@ $hosa=$db->getpathen($file);
 else{
 
 }
+
+}
+else{
+
+}
+
 
 ?>
 <!DOCTYPE html>
